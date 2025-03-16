@@ -1,0 +1,11 @@
+{% extends './base.html' %}
+{% block content %}
+<ul>
+{% for student in students %}
+<ul class="my-4">
+<li>Name: {{ student.name }}</li>
+<li>Email: {{ student.email }}</li>
+</ul>
+{% endfor %}
+</ul>
+{% endblock %}
