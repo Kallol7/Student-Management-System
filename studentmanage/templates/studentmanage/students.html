@@ -6,6 +6,8 @@
 <li>Name: {{ student.name }}</li>
 <li>Email: {{ student.email }}</li>
 </ul>
+{% empty %}
+<p class="text-2xl">Student information has not been added yet!</p>
 {% endfor %}
 </ul>
 {% endblock %}
