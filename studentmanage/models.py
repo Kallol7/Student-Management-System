@@ -9,13 +9,13 @@ class Course(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=30)
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField()
     phone = models.CharField(
         max_length=24,
         error_messages={"incomplete": "Enter a phone number."},
         validators=[RegexValidator(r"^[0-9]{10,15}$", "Enter a valid phone number.")],
     )
-    courses = models.ManyToManyField(Course)
+    courses = models.ManyToManyField(Course, blank=True)
 
     def __str__(self):
         return self.name

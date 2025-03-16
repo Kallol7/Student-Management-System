@@ -8,18 +8,24 @@
     <style>
         :root {
             --primary: #3d4cad; 
-            --secondary: #0f1e2d;
+            --secondary: #5365de;
             --background: #b2c4d8;
+            --danger: #8c0000;
+            --success: #97ff83;
         }
         [data-theme="dark"] {
             --primary: #313743; /* Dark Theme */
             --secondary: #b6c0cd;
             --background: #d3d9e0;
+            --danger: #8c0000;
+            --success: #0d5500;
         }
         [data-theme="green"] {
             --primary: #065F46; /* Green Theme */
             --secondary: #10B981;
             --background: #ECFDF5;
+            --danger: #8c0000;
+            --success: #0d5500;
         }
     </style>
 </head>
@@ -61,7 +67,7 @@
         <p>&copy; {% now "Y" %} Kallol7</p>
     </footer>
 
-    <script>
+    <script type="text/javascript">
         function toggleVisibility(id) {
             let element = document.getElementById(id);
             if (element) {

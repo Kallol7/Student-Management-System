@@ -1,4 +1,14 @@
 {% extends './base.html' %}
 {% block content %}
-<p class="text-2xl">Sign Up</p>
+<form method="post" class="mt-12 max-w-fit p-7 mx-auto bg-[var(--secondary)] rounded-xl text-white">
+    <input id= 'theme' class="hidden">
+    {% if success %}
+        <p class="text-[var(--success)] text-xl">Student added successfully.</p>
+    {% elif success == False %}
+    <p class="text-[var(--danger)] text-xl">Please enter valid information.</p>
+    {% endif %}
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="block py-1 px-2 bg-gray-200 text-black mt-6 mb-2 rounded mx-auto">Submit</button>
+</form>
 {% endblock %}
