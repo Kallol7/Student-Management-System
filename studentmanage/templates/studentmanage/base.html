@@ -25,12 +25,15 @@
 </head>
 <body class="bg-[var(--background)] text-[var(--primary)] flex flex-col min-h-screen min-w-[175px]">
     <nav class="bg-[var(--primary)] text-white p-4 flex flex-col md:flex-row justify-between items-center">
-        <h1 class="text-xl font-semibold">SMSyst&trade;</i></h1>
+        <a href="{% url 'home' %}" class="text-xl font-semibold">SMSyst&trade;</i></a>
+        
+        <a href="{% url 'student_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:ml-auto md:mr-4">Add Student</a>
+        
         <div class="relative">
             <button id="theme-button" onclick="toggleVisibility('theme-menu')"
                 class="px-3 py-1 bg-gray-200 text-black rounded">Theme
             </button>
-            
+
             <div id="theme-menu" class="hidden absolute mt-2 shadow-md rounded" onmouseleave="toggleVisibility('theme-menu')">
                 <button onclick="setTheme('default'); toggleVisibility('theme-menu');"
                     class="block px-3 py-1 bg-gray-200 text-black rounded mx-auto">Default
