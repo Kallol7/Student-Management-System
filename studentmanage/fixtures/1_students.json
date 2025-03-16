@@ -1,0 +1,71 @@
+[
+    {
+        "model": "studentmanage.course",
+        "pk": 1, 
+        "fields": {
+            "name": "Math"
+        }
+    },
+    {
+        "model": "studentmanage.course",
+        "pk": 2, 
+        "fields": {
+            "name": "Physics"
+        }
+
+    },
+    {
+        "model": "studentmanage.course",
+        "pk": 3, 
+        "fields": {
+            "name": "Biology"
+        }
+    },
+    {
+        "model": "studentmanage.course",
+        "pk": 4, 
+        "fields": {
+            "name": "Higher Math"
+        }
+    },
+    {
+        "model": "studentmanage.student",
+        "pk": 1, 
+        "fields": {
+            "name": "John Doe",
+            "email": "johndoe@gmail.com",
+            "phone": "1234567890",
+            "courses": [1, 2, 3]
+        }
+    },
+    {
+        "model": "studentmanage.student",
+        "pk": 2, 
+        "fields": {
+            "name": "Jane Doe",
+            "email": "janedoe@gmail.com",
+            "phone": "1212337890",
+            "courses": [1, 2, 4]
+        }
+    },
+    {
+        "model": "studentmanage.student",
+        "pk": 3, 
+        "fields": {
+            "name": "Joe Schmoe",
+            "email": "joeschmoe@gmail.com",
+            "phone": "1434537790",
+            "courses": [1, 2]
+        }
+    },
+    {
+        "model": "studentmanage.student",
+        "pk": 4, 
+        "fields": {
+            "name": "Joe Bloggs",
+            "email": "joebloggs@gmail.com",
+            "phone": "1434557890",
+            "courses": [1, 2]
+        }
+    }
+]
