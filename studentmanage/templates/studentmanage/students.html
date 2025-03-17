@@ -1,13 +1,65 @@
 {% extends './base.html' %}
 {% block content %}
-<ul>
+<div class="max-w-sm flex-row bg-[var(--primary)] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 mx-auto px-10">
 {% for student in students %}
-<ul class="my-4">
-<li>Name: {{ student.name }}</li>
-<li>Email: {{ student.email }}</li>
-</ul>
+<div class="flex flex-col items-center pt-5" data-student-id="{{ student.id }}" id="{{ student.id }}">
+    <img class="w-24 h-24 mb-3 rounded-full shadow-lg bg-[var(--secondary)]" src="#" alt="#######"/>
+    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{student.name}}</h5>
+    <span class="text-sm text-gray-500 dark:text-gray-400">{{student.email}}</span>
+    <span class="text-sm text-gray-500 dark:text-gray-400">{{student.phone}}</span>
+    <div class="flex mt-4 md:mt-3">
+        <a href="{% url 'update_student' pk=student.id %}" class="py-1 px-3 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-800 hover:bg-gray-100 hover:text-[var(--primary)] focus:z-10 focus:ring-4 focus:ring-gray-100">Edit</a>
+        
+        <a onclick = "
+            const id = this.closest('div[data-student-id]').getAttribute('data-student-id');
+            const url = `/students/delete/${id}`;
+            document.getElementById('deleteconfirmation').classList.toggle('hidden');
+            const deletebtn = document.getElementById('confirm-delete-btn');
+            // { once: true } might not work in older browser versions
+            deletebtn.addEventListener('click', function deleteStudent(){
+                document.getElementById('deleteconfirmation').classList.toggle('hidden');
+                fetch(url).then(response => {
+                    if (response.status == 200) {
+                        document.getElementById(id).classList.toggle('hidden')
+                        alert(`Student ${id} deleted from database`);
+                    }
+                 });
+            }, { once: true });
+        " class="py-1 px-3 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-800 hover:bg-gray-100 hover:text-[var(--secondary)] focus:z-10 focus:ring-4 focus:ring-gray-100">Delete</a>
+
+    </div>
+<hr class="max-w-fit mx-auto pb-5">
+</div>
 {% empty %}
-<p class="text-2xl">Student information has not been added yet!</p>
+<p class="text-2xl text-white text-center py-3">No entry yet.</p>
 {% endfor %}
-</ul>
+</div>
+
+<div id="deleteconfirmation" class="hidden fixed inset-0 flex items-center justify-center z-50 backdrop-blur confirm-dialog">
+    <div class="relative px-4 min-h-screen md:flex md:items-center md:justify-center">
+        <div class=" opacity-25 w-full h-full absolute z-10 inset-0"></div>
+        <div class="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative shadow-lg">
+            <div class="md:flex items-center">
+                <div class="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                    <i class="bx text-[var(--danger)] bx-error text-3xl m-0 p-0">!</i>
+                </div>
+                <div class="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+                <p class="font-bold">Warning!</p>
+                <p class="text-sm text-gray-700 mt-1">The student entry will be deleted. This action cannot be undone.
+                </p>
+                </div>
+            </div>
+            <div class="text-center md:text-right mt-4 md:flex md:justify-end">
+                <button id="confirm-delete-btn" class="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2">
+                    Delete
+                </button>
+                <button onclick="
+                    document.getElementById('deleteconfirmation').classList.toggle('hidden')
+                " id="confirm-cancel-btn" class="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1">
+                Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

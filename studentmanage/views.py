@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import StudentForm
-from django.http import HttpResponseNotFound
+from django.http import HttpResponse
 from .models import Student, Course
 
 def home(request):
@@ -16,12 +16,13 @@ def student_form(request, success=None):
             success = False
     if success is None:
         form = StudentForm()
-
-    return render(request, "studentmanage/studentform.html", {"form": form, "success": success})
+    
+    return render(request, "studentmanage/studentform.html", {"form": form, "success": success, "verb": "added"})
 
 def students(request):
     students = Student.objects.prefetch_related("courses")
     response = [{
+        "id": student.pk,
         "name": student.name,
         "email": student.email,
         "phone": student.phone,
@@ -43,6 +44,15 @@ def update_student(request, pk, success=None):
         student = Student.objects.get(pk=pk)
         form = StudentForm(instance=student)
     except:
-        return render(request, "studentmanage/notfound.html", {"pk": pk})
+        return render(request, "studentmanage/basemsg.html", {"notfound": pk})
     
-    return render(request, "studentmanage/studentform.html", {"form": form, "success": success})
+    return render(request, "studentmanage/studentform.html", {"form": form, "success": success, "verb": "updated"})
+
+def delete_student(request, pk):
+    try:
+        student = Student.objects.get(pk=pk)
+        student.delete()
+        return HttpResponse(content="Successfully deleted pk",status = [200])
+    except:
+        return render(request, "studentmanage/basemsg.html", {"message": f"Student {pk} not found"})
+
