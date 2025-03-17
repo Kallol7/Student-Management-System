@@ -32,19 +32,19 @@ def students(request):
     return render(request, "studentmanage/students.html", {"students": response})
 
 def update_student(request, pk, success=None):
-    if request.method == "POST":
-        form = StudentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            success = True
-        else:
-            success = False
-    
     try:
         student = Student.objects.get(pk=pk)
         form = StudentForm(instance=student)
     except:
         return render(request, "studentmanage/basemsg.html", {"notfound": pk})
+    
+    if request.method == "POST":
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            success = True
+        else:
+            success = False
     
     return render(request, "studentmanage/studentform.html", {"form": form, "success": success, "verb": "updated"})
 

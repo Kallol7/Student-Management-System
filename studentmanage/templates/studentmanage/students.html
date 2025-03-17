@@ -2,31 +2,16 @@
 {% block content %}
 <div class="max-w-sm flex-row bg-[var(--primary)] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 mx-auto px-10">
 {% for student in students %}
-<div class="flex flex-col items-center pt-5" data-student-id="{{ student.id }}" id="{{ student.id }}">
+<div id="{{ student.id }}container" class="flex flex-col items-center pt-5">
     <img class="w-24 h-24 mb-3 rounded-full shadow-lg bg-[var(--secondary)]" src="#" alt="#######"/>
     <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{student.name}}</h5>
     <span class="text-sm text-gray-500 dark:text-gray-400">{{student.email}}</span>
     <span class="text-sm text-gray-500 dark:text-gray-400">{{student.phone}}</span>
     <div class="flex mt-4 md:mt-3">
+        <!-- ↓ Edit Button -->
         <a href="{% url 'update_student' pk=student.id %}" class="py-1 px-3 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-800 hover:bg-gray-100 hover:text-[var(--primary)] focus:z-10 focus:ring-4 focus:ring-gray-100">Edit</a>
-        
-        <a onclick = "
-            const id = this.closest('div[data-student-id]').getAttribute('data-student-id');
-            const url = `/students/delete/${id}`;
-            document.getElementById('deleteconfirmation').classList.toggle('hidden');
-            const deletebtn = document.getElementById('confirm-delete-btn');
-            // { once: true } might not work in older browser versions
-            deletebtn.addEventListener('click', function deleteStudent(){
-                document.getElementById('deleteconfirmation').classList.toggle('hidden');
-                fetch(url).then(response => {
-                    if (response.status == 200) {
-                        document.getElementById(id).classList.toggle('hidden')
-                        alert(`Student ${id} deleted from database`);
-                    }
-                 });
-            }, { once: true });
-        " class="py-1 px-3 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-800 hover:bg-gray-100 hover:text-[var(--secondary)] focus:z-10 focus:ring-4 focus:ring-gray-100">Delete</a>
-
+        <!-- ↓ Delete Button -->
+        <a id="{{ student.id }}" onclick = "ConfirmationDialogue(this.id);" class="py-1 px-3 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-800 hover:bg-gray-100 hover:text-[var(--secondary)] focus:z-10 focus:ring-4 focus:ring-gray-100">Delete</a>
     </div>
 <hr class="max-w-fit mx-auto pb-5">
 </div>
@@ -50,16 +35,48 @@
                 </div>
             </div>
             <div class="text-center md:text-right mt-4 md:flex md:justify-end">
+                <button onclick="editHandler()" id="confirm-cancel-btn" class="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1">
+                    Cancel
+                </button>
+
+                <!-- ↓ Onlick: EventListener -->
                 <button id="confirm-delete-btn" class="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2">
                     Delete
-                </button>
-                <button onclick="
-                    document.getElementById('deleteconfirmation').classList.toggle('hidden')
-                " id="confirm-cancel-btn" class="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1">
-                Cancel
                 </button>
             </div>
         </div>
     </div>
 </div>
+<script>
+let bubbled = []
+function ConfirmationDialogue(id) {
+    toggleVisibility('deleteconfirmation')
+    const deleteBtn = document.getElementById('confirm-delete-btn');
+    const myfunc = function () {
+        toggleVisibility('deleteconfirmation');
+        toggleVisibility(`${id}container`);
+        const url = `/students/delete/${id}`;
+        fetch(url).then(response => {
+            if (response.status == 200) {
+                console.log(`Student ${id} deleted.`)
+            }
+        });
+        fixBubblingCausedByCancel();
+    }
+    bubbled.push(myfunc)
+    deleteBtn.addEventListener('click', myfunc);
+}
+
+function editHandler(){
+    toggleVisibility('deleteconfirmation');
+    fixBubblingCausedByCancel();
+}
+
+function fixBubblingCausedByCancel(){
+    const deleteBtn = document.getElementById('confirm-delete-btn');
+    bubbled.forEach(item => {
+        deleteBtn.removeEventListener('click', item);
+    });
+}
+</script>
 {% endblock %}
