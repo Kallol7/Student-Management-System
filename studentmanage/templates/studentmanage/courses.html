@@ -49,7 +49,7 @@
 <script>
 let bubbled = []
 function ConfirmationDialogue(id) {
-    toggleVisibility('deleteconfirmation')
+    toggleVisibility('deleteconfirmation');
     const deleteBtn = document.getElementById('confirm-delete-btn');
     const myfunc = function () {
         toggleVisibility('deleteconfirmation');
@@ -57,7 +57,7 @@ function ConfirmationDialogue(id) {
         const url = `/courses/delete/${id}`;
         fetch(url).then(response => {
             if (response.status == 200) {
-                console.log(`Course ${id} deleted.`)
+                console.log(`Course ${id} deleted.`);
             }
         });
         fixBubblingCausedByCancel();
