@@ -16,6 +16,8 @@ class Student(models.Model):
         validators=[RegexValidator(r"^[0-9]{10,15}$", "Enter a valid phone number.")],
     )
     courses = models.ManyToManyField(Course, blank=True)
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
     def __str__(self):
         return self.name

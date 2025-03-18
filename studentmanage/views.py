@@ -11,6 +11,7 @@ def student_form(request, success=None):
         form = StudentForm(request.POST)
         if form.is_valid():
             form.save()
+            form = StudentForm()
             success = True
         else:
             success = False
@@ -20,7 +21,7 @@ def student_form(request, success=None):
     return render(request, "studentmanage/studentform.html", {"form": form, "success": success, "verb": "added"})
 
 def students(request):
-    students = Student.objects.prefetch_related("courses")
+    students = Student.objects.prefetch_related("courses").order_by("-updated_at")
     response = [{
         "id": student.pk,
         "name": student.name,
@@ -55,4 +56,3 @@ def delete_student(request, pk):
         return HttpResponse(content="Successfully deleted pk",status = [200])
     except:
         return render(request, "studentmanage/basemsg.html", {"message": f"Student {pk} not found"})
-
