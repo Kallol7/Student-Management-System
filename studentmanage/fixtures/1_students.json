@@ -3,14 +3,16 @@
         "model": "studentmanage.course",
         "pk": 1, 
         "fields": {
-            "name": "Math"
+            "name": "Math",
+            "code": "Math101"
         }
     },
     {
         "model": "studentmanage.course",
         "pk": 2, 
         "fields": {
-            "name": "Physics"
+            "name": "Physics101",
+            "code": "Physics101"
         }
 
     },
@@ -18,14 +20,16 @@
         "model": "studentmanage.course",
         "pk": 3, 
         "fields": {
-            "name": "Biology"
+            "name": "Biology",
+            "code": "Biology101"
         }
     },
     {
         "model": "studentmanage.course",
         "pk": 4, 
         "fields": {
-            "name": "Higher Math"
+            "name": "Higher Math",
+            "code": "Higher Math101"
         }
     },
     {
@@ -35,7 +39,9 @@
             "name": "John Doe",
             "email": "johndoe@gmail.com",
             "phone": "1234567890",
-            "courses": [1, 2, 3]
+            "courses": [1, 2, 3],
+            "created_at": "2025-03-17T13:20:30+03:00",
+            "updated_at": "2025-03-17T13:20:30+03:00"
         }
     },
     {
@@ -45,7 +51,9 @@
             "name": "Jane Doe",
             "email": "janedoe@gmail.com",
             "phone": "1212337890",
-            "courses": [1, 2, 4]
+            "courses": [1, 2, 4],
+            "created_at": "2025-03-17T17:41:28+00:00",
+            "updated_at": "2025-03-17T17:41:28+00:00"
         }
     },
     {
@@ -55,7 +63,9 @@
             "name": "Joe Schmoe",
             "email": "joeschmoe@gmail.com",
             "phone": "1434537790",
-            "courses": [1, 2]
+            "courses": [1, 2],
+            "created_at": "2025-03-17T23:36:12+00:00",
+            "updated_at": "2025-03-17T23:36:12+00:00"
         }
     },
     {
@@ -65,7 +75,9 @@
             "name": "Joe Bloggs",
             "email": "joebloggs@gmail.com",
             "phone": "1434557890",
-            "courses": [1, 2]
+            "courses": [1, 2],
+            "created_at": "2025-03-17T13:19:37+00:00",
+            "updated_at": "2025-03-17T13:19:37+00:00"
         }
     }
 ]

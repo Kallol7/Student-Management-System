@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import StudentForm
+from .forms import StudentForm, CourseForm
 from django.http import HttpResponse
 from .models import Student, Course
 
@@ -56,3 +56,52 @@ def delete_student(request, pk):
         return HttpResponse(content="Successfully deleted pk",status = [200])
     except:
         return render(request, "studentmanage/basemsg.html", {"message": f"Student {pk} not found"})
+
+def course_form(request, success=None):
+    if request.method == "POST":
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form = CourseForm()
+            success = True
+        else:
+            success = False
+    if success is None:
+        form = CourseForm()
+    
+    return render(request, "studentmanage/courseform.html", {"form": form, "success": success, "verb": "added"})
+
+def courses(request):
+    courses = Course.objects.all()
+    response = [{
+        "id": course.pk,
+        "name": course.name,
+        "code": course.code
+    } for course in courses]
+
+    return render(request, "studentmanage/courses.html", {"courses": response})
+
+def update_course(request, pk, success=None):
+    try:
+        student = Course.objects.get(pk=pk)
+        form = CourseForm(instance=student)
+    except:
+        return render(request, "studentmanage/basemsg.html", {"notfound": pk})
+    
+    if request.method == "POST":
+        form = CourseForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            success = True
+        else:
+            success = False
+    
+    return render(request, "studentmanage/courseform.html", {"form": form, "success": success, "verb": "updated"})
+
+def delete_course(request, pk):
+    try:
+        course = Course.objects.get(pk=pk)
+        course.delete()
+        return HttpResponse(content="Successfully deleted pk",status = [200])
+    except:
+        return render(request, "studentmanage/basemsg.html", {"message": f"Course {pk} not found"})
