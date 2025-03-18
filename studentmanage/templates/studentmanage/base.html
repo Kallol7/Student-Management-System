@@ -70,6 +70,7 @@
     </footer>
     
     <script>
+        window.onload = setThemeOnPageLoad
         function toggleVisibility(id) {
             let element = document.getElementById(id);
             if (element) {
@@ -78,6 +79,15 @@
         }
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme)
+            localStorage.setItem('theme', theme);
+        }
+        function setThemeOnPageLoad() {
+            theme = localStorage.getItem('theme')
+            if (theme) {
+                setTheme(theme);
+            } else {
+                setTheme('default');
+            }
         }
     </script>
 </body>

@@ -1,7 +1,6 @@
 {% extends './base.html' %}
 {% block content %}
 <form method="post" class="mt-12 max-w-fit p-7 mx-auto bg-[var(--secondary)] rounded-xl text-white">
-    <input id= 'theme' class="hidden">
     {% if success %}
         <p class="text-[var(--success)] text-xl mb-3">Student {{ verb }} successfully.</p>
     {% elif success == False %}
