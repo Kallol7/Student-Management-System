@@ -25,8 +25,26 @@ SECRET_KEY = 'django-insecure-q@t9vwb@hbk^t=!lg1%0$7@fw4x(^@%1tg@$9ky1c#=)%k$^m(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "kallol.live", "www.kallol.live", "*.kallol.live"]
 
+CSRF_TRUSTED_ORIGINS = ["https://*.kallol.live"]
+
+# Trust the Cloudflare proxy headers
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+SECURE_SSL_REDIRECT = False
+
+USE_X_FORWARDED_HOST = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+SECURE_HSTS_SECONDS = 3600
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
 
 # Application definition
 
