@@ -1,9 +1,9 @@
 {% extends './base.html' %}
 {% block content %}
-<div class="max-w-sm flex-row bg-[var(--primary)] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 mx-auto px-10">
+<div class="max-w-sm flex-row bg-[var(--primary)] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 mx-auto px-10  pt-2 pb-4">
 {% for course in courses %}
 <div id="{{ course.id }}container" class="flex flex-col items-center pt-5">
-    <img class="w-24 h-24 mb-3 rounded-full shadow-lg bg-[var(--secondary)]" src="#" alt="#######"/>
+    <!-- <img class="w-24 h-24 mb-3 rounded-full shadow-lg bg-[var(--secondary)]" src="#" alt="#######"/> -->
     <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{course.name}}</h5>
     <span class="text-sm text-gray-500 dark:text-gray-400">{{course.code}}</span>
     <div class="flex mt-4 md:mt-3">

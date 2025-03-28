@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-q@t9vwb@hbk^t=!lg1%0$7@fw4x(^@%1tg@$9ky1c#=)%k$^m(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "kallol.live", "www.kallol.live", "*.kallol.live"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "kallol.live", "sms.kallol.live", "www.kallol.live"]
 
 CSRF_TRUSTED_ORIGINS = ["https://*.kallol.live"]
 

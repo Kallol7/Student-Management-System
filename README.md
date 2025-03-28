@@ -1,5 +1,7 @@
 ## A Django project
 
+https://sms.kallol.live
+
 ![1](https://github.com/user-attachments/assets/3e3ac36d-1e06-4deb-9369-712f42e2d66b)
 ![2](https://github.com/user-attachments/assets/8e718aaf-18d1-4bfc-9ece-4506c9ff778a)
 ![3](https://github.com/user-attachments/assets/f5eb37de-39ef-4b3e-9d64-7631ad8c76a1)
