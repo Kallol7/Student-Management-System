@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import StudentForm, CourseForm
 from django.http import HttpResponse
 from .models import Student, Course
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 def home(request):
     return render(request, "studentmanage/index.html")
@@ -20,6 +22,7 @@ def student_form(request, success=None):
     
     return render(request, "studentmanage/studentform.html", {"form": form, "success": success, "verb": "added"})
 
+@ensure_csrf_cookie
 def students(request):
     students = Student.objects.prefetch_related("courses").order_by("-updated_at")
     response = [{
@@ -49,11 +52,12 @@ def update_student(request, pk, success=None):
     
     return render(request, "studentmanage/studentform.html", {"form": form, "success": success, "verb": "updated"})
 
+@require_POST
 def delete_student(request, pk):
     try:
         student = Student.objects.get(pk=pk)
         student.delete()
-        return HttpResponse(content="Successfully deleted pk",status = [200])
+        return HttpResponse(content="Successfully deleted pk", status=200)
     except:
         return render(request, "studentmanage/basemsg.html", {"message": f"Student {pk} not found"})
 
@@ -71,6 +75,7 @@ def course_form(request, success=None):
     
     return render(request, "studentmanage/courseform.html", {"form": form, "success": success, "verb": "added"})
 
+@ensure_csrf_cookie
 def courses(request):
     courses = Course.objects.all()
     response = [{
@@ -98,10 +103,11 @@ def update_course(request, pk, success=None):
     
     return render(request, "studentmanage/courseform.html", {"form": form, "success": success, "verb": "updated"})
 
+@require_POST
 def delete_course(request, pk):
     try:
         course = Course.objects.get(pk=pk)
         course.delete()
-        return HttpResponse(content="Successfully deleted pk",status = [200])
+        return HttpResponse(content="Successfully deleted pk", status=200)
     except:
         return render(request, "studentmanage/basemsg.html", {"message": f"Course {pk} not found"})
