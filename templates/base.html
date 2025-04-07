@@ -51,11 +51,17 @@
         
         <a href="{% url 'courses' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:ml-auto md:mr-4">Courses</a>
 
+        {% if user.is_authenticated %}
         <a href="{% url 'students' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4">Students</a>
 
         <a href="{% url 'student_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4">Add Student</a>
 
         <a href="{% url 'course_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4">Add Course</a>
+        
+        {% else %}
+        <a href="{% url 'login_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4">Login</a>
+
+        {% endif %}
         
         <div class="relative">
             <button id="theme-button" onclick="toggleVisibility('theme-menu')"
