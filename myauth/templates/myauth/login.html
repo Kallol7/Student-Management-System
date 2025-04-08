@@ -1,4 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-Please login
+<form method="post" class="mt-12 max-w-fit p-7 mx-auto bg-[var(--secondary)] rounded-xl text-white">
+    {% if success %}
+    <p class="text-[var(--success)] text-xl mb-3">Registration successful! Please log in.
+        <br>Username: {{ username }}
+    </p>
+    {% elif success == False %}
+    <p class="text-[var(--danger)] text-xl">Wrong username/password.</p>
+    {% endif %}
+    {% csrf_token %}
+
+    <!-- https://docs.djangoproject.com/en/5.2/topics/forms/#customizing-the-form-template -->
+    {# Include the hidden fields #}
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+    {# Include the visible fields #}
+    {% for field in form.visible_fields %}
+    <label class="text-white" for="{{ field.auto_id }}">{{ field.label_tag }}</label> {{ field }}<br>
+    {% endfor %}
+
+    <button type="submit" class="block py-1 px-2 bg-gray-200 text-black mt-6 mb-2 rounded mx-auto">Submit</button>
+</form>
 {% endblock %}

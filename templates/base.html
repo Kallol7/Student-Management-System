@@ -38,8 +38,12 @@
             if (theme) {
                 setTheme(theme);
             } else {
-                const choices = ['default', 'dark', 'green']
-                setTheme(choices[Date.now()%3]);
+                const choices = [
+                    'dark', 'dark', 'dark', 'dark', 'dark', 
+                    'green', 'green', 'green',
+                    'default', 'default'
+                ]
+                setTheme(choices[Date.now()%10]);
             }
         }
         setThemeOnPageLoad();
@@ -49,23 +53,27 @@
     <nav class="bg-[var(--primary)] text-white p-4 flex flex-col md:flex-row justify-between items-center">
         <a href="{% url 'home' %}" class="text-xl font-semibold">SMSyst&trade;</i></a>
         
-        <a href="{% url 'courses' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:ml-auto md:mr-4">Courses</a>
+        <a href="{% url 'courses' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:ml-auto md:mr-4 max-md:mt-1">Courses</a>
 
         {% if user.is_authenticated %}
-        <a href="{% url 'students' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4">Students</a>
+        <a href="{% url 'students' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Students</a>
 
-        <a href="{% url 'student_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4">Add Student</a>
+        <a href="{% url 'student_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Add Student</a>
 
-        <a href="{% url 'course_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4">Add Course</a>
+        <a href="{% url 'course_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Add Course</a>
+
+        <a href="{% url 'user_logout' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Log Out</a>
         
         {% else %}
-        <a href="{% url 'login_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4">Login</a>
+        <a href="{% url 'signup_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Sign Up</a>
+
+        <a href="{% url 'login_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Log In</a>
 
         {% endif %}
         
         <div class="relative">
             <button id="theme-button" onclick="toggleVisibility('theme-menu')"
-                class="px-3 py-1 bg-gray-200 text-black rounded">Theme
+                class="px-3 py-1 bg-gray-200 text-black rounded max-sm:mt-1">Theme
             </button>
             
             <div id="theme-menu" class="hidden absolute mt-2 shadow-md rounded" onmouseleave="toggleVisibility('theme-menu')">
