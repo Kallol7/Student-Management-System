@@ -23,6 +23,9 @@ def userlogin(request, success=None):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            next = request.GET.get("next")
+            if next is not None:
+                return redirect(next)
             return redirect("/")
         else:
             form = LoginForm(request.POST)
