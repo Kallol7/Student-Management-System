@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 
 # DSHFdfxs1234
 class UserRegistrationForm(UserCreationForm):
@@ -21,16 +21,16 @@ class UserRegistrationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
 
         # solves pain in the ash
-        self.fields.get("username").widget.attrs.update({"class": "block w-full my-1 max-w-[100%] my-0 rounded"})
-        self.fields.get("email").widget.attrs.update({"class": "block w-full my-1 max-w-[100%] my-0 rounded"})
-        self.fields.get("password1").widget.attrs.update({"class": "block w-full my-1 max-w-[100%] my-0 rounded"})
-        self.fields.get("password2").widget.attrs.update({"class": "block w-full my-1 max-w-[100%] my-0 rounded"})
+        self.fields.get("username").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] my-0 rounded"})
+        self.fields.get("email").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] my-0 rounded"})
+        self.fields.get("password1").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] my-0 rounded"})
+        self.fields.get("password2").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] my-0 rounded"})
 
 class LoginForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["username", "password"]
         widgets = {
-            "username": forms.TextInput(attrs={"class": "text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block"}),
-            "password": forms.PasswordInput(attrs={"class": "text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block max-[375px]:ml-0 ml-1"})
+            "username": forms.TextInput(attrs={"class": "bg-white text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block"}),
+            "password": forms.PasswordInput(attrs={"class": "bg-white text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block max-[375px]:ml-0 ml-1"})
         }
