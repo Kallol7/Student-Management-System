@@ -3,3 +3,4 @@ __pycache__
 
 # Database
 /db.*
+/mysite/settings.py.backup
