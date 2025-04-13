@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .forms import UserRegistrationForm, LoginForm
+from .user_routing import get_user_bucket
 
 def signup(request, success = None):
     if request.method == "POST":
@@ -23,10 +24,15 @@ def userlogin(request, success=None):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            response = redirect("/")
             next = request.GET.get("next")
             if next is not None:
-                return redirect(next)
-            return redirect("/")
+                response = redirect(next)
+            
+            # Nginx logic, to always send the user to the same server.
+            response.set_cookie("user_bucket", get_user_bucket(username))
+            
+            return response
         else:
             form = LoginForm(request.POST)
             success = False
@@ -43,5 +49,7 @@ def userlogin(request, success=None):
 
 def userlogout(request):
     logout(request)
-
-    return redirect("/")
+    response = redirect("/")
+    response.delete_cookie('user_bucket')
+    
+    return response
