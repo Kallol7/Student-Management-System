@@ -33,10 +33,17 @@
     <script>
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme)
-            localStorage.setItem('theme', theme);
+            // localStorage.setItem('theme', theme);
+            document.cookie = `theme=${theme}; path=/; max-age=${60 * 60* 24 * 7}`;
+        }
+        function getTheme() {
+            return document.cookie.split(';')
+            .find(row => row.trim().startsWith('theme='))
+            ?.split('=')[1];
         }
         function setThemeOnPageLoad() {
-            theme = localStorage.getItem('theme')
+            // theme = localStorage.getItem('theme')
+            theme = getTheme()
             if (theme) {
                 setTheme(theme);
             } else {
