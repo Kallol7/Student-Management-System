@@ -7,10 +7,10 @@ class StudentForm(forms.ModelForm):
         model = Student
         fields = ["name","email","phone", "courses"]
         widgets = {
-            "name": forms.TextInput(attrs={"class": "bg-white max-w-[100%] max-[350px]:block max-[350px]:ml-0 ml-1 my-2 rounded text-black"}),
-            "email": forms.EmailInput(attrs={"class": "bg-white max-w-[100%] max-[350px]:block max-[350px]:ml-0 ml-2 my-2 rounded text-black"}),
-            "courses": forms.CheckboxSelectMultiple(attrs={"class": "max-w-[100%] inline-block ml-4 text-left"}),
-            "phone": forms.TextInput(attrs={"class": "bg-white max-w-[100%] max-[350px]:block max-[350px]:ml-0 ml-0 my-2 rounded text-black"}),
+            "name": forms.TextInput(attrs={"class": "bg-white max-w-[100%] max-[375px]:block ml-0 min-[375px]:ml-2 my-2 rounded text-black"}),
+            "email": forms.EmailInput(attrs={"class": "bg-white max-w-[100%] max-[375px]:block ml-0 min-[375px]:ml-3 my-2 rounded text-black"}),
+            "phone": forms.TextInput(attrs={"class": "bg-white max-w-[100%] max-[375px]:block min-[375px]:ml-1 my-2 rounded text-black"}),
+            "courses": forms.CheckboxSelectMultiple(attrs={"class": "max-w-[100%] inline-block ml-4 text-left"})
         }
 
 class CourseForm(forms.ModelForm):

@@ -31,6 +31,6 @@ class LoginForm(forms.ModelForm):
         model = User
         fields = ["username", "password"]
         widgets = {
-            "username": forms.TextInput(attrs={"class": "bg-white text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block"}),
-            "password": forms.PasswordInput(attrs={"class": "bg-white text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block max-[375px]:ml-0 ml-1"})
+            "username": forms.TextInput(attrs={"class": "bg-white text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block ml-0"}),
+            "password": forms.PasswordInput(attrs={"class": "bg-white text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block ml-0 min-[375px]:ml-[4.8px]"})
         }
