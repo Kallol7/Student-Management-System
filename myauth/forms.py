@@ -21,16 +21,16 @@ class UserRegistrationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
 
         # solves pain in the ash
-        self.fields.get("username").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] my-0 rounded"})
-        self.fields.get("email").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] my-0 rounded"})
-        self.fields.get("password1").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] my-0 rounded"})
-        self.fields.get("password2").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] my-0 rounded"})
+        self.fields.get("username").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] rounded"})
+        self.fields.get("email").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] rounded"})
+        self.fields.get("password1").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] rounded"})
+        self.fields.get("password2").widget.attrs.update({"class": "bg-white block w-full my-1 max-w-[100%] rounded"})
 
 class LoginForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["username", "password"]
         widgets = {
-            "username": forms.TextInput(attrs={"class": "bg-white text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block ml-0"}),
-            "password": forms.PasswordInput(attrs={"class": "bg-white text-black my-1 max-w-[100%] my-0 rounded max-[375px]:block ml-0 min-[375px]:ml-[4.8px]"})
+            "username": forms.TextInput(attrs={"class": "bg-white block sm:inline-block max-sm:w-full my-1 sm:mb-3 max-w-[100%] rounded"}),
+            "password": forms.PasswordInput(attrs={"class": "bg-white block sm:inline-block max-sm:w-full my-1 sm:ml-[4.8px] max-w-[100%] rounded"})
         }
