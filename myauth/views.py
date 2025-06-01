@@ -116,7 +116,7 @@ def oauth2callback(request):
             id_token_str,
             google_requests.Request(),
             settings.GOOGLE_CLIENT_ID,
-            clock_skew_in_seconds=0
+            clock_skew_in_seconds=settings.SKEW_IN_SECONDS
         )
     except ValueError:
         return HttpResponse(f"Invalid ID token", status=400)

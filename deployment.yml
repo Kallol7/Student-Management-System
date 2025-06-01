@@ -1,0 +1,234 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: smsapp-env-secret
+type: Opaque
+stringData:
+  # key-value pairs from .env (without base64 encoding)
+  GOOGLE_CLIENT_ID: <placeholder>
+  GOOGLE_CLIENT_SECRET: <placeholder>
+  GOOGLE_REDIRECT_URI: https://sms.kallol.live/callback
+  SKEW_IN_SECONDS: "0"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: staticfiles-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Mi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smsapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smsapp
+  template:
+    metadata:
+      labels:
+        app: smsapp
+    spec:
+      containers:
+        - name: smsapp
+          image: kallol7/smsapp:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              python manage.py migrate &&
+              python manage.py collectstatic --noinput &&
+              gunicorn mysite.wsgi:application --bind 0.0.0.0:8000
+          envFrom:
+            - secretRef:
+                name: smsapp-env-secret
+          volumeMounts:
+            - name: staticfiles
+              mountPath: /usr/src/app/staticfiles
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      volumes:
+        - name: staticfiles
+          persistentVolumeClaim:
+            claimName: staticfiles-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smsapp
+spec:
+  selector:
+    app: smsapp
+  ports:
+    - port: 8000
+      targetPort: 8000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+            - name: staticfiles
+              mountPath: /var/www/sms/staticfiles
+              readOnly: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+        - name: staticfiles
+          persistentVolumeClaim:
+            claimName: staticfiles-pvc
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    user nginx;
+    # worker_processes 1;
+    error_log /var/log/nginx/error.log warn;
+    pid /run/nginx.pid;
+
+    # Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
+    # include /usr/share/nginx/modules/*.conf;
+
+    events {
+    #   worker_connections 8;
+      accept_mutex off;
+      use epoll;
+    }
+
+    http {
+      log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
+
+      access_log  /var/log/nginx/access.log  main;
+
+      sendfile            on;
+      tcp_nopush          on;
+      keepalive_timeout   15;
+      types_hash_max_size 4096;
+      server_tokens off;
+
+      include             /etc/nginx/mime.types;
+      default_type        application/octet-stream;
+
+      # Default configuration, keep this commented
+      # include /etc/nginx/conf.d/*.conf;
+
+      # Make sure to set "user_bucket" cookie when user logs in.
+      map $cookie_user_bucket $user_bucket {
+        "" $remote_addr; # if cookie empty, return client's IP.
+        default $cookie_user_bucket;
+      }
+
+      upstream app_server {
+        hash $user_bucket consistent;
+        server smsapp:8000;
+      }
+
+      server {
+        listen 80;
+
+        server_name kallol.live sms.kallol.live;
+
+        client_max_body_size 1M;
+
+        location ~ /\.(?!well-known) {
+            deny all;
+        }
+
+        location /static/ {
+          # Make sure to give nginx read permission.
+          alias /var/www/sms/staticfiles/;
+          access_log off;
+          error_log off;
+          autoindex off;
+        }
+
+        location / {
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header Host $http_host;
+          proxy_redirect off;
+          proxy_pass http://app_server;
+        }
+      }
+    }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: nginx
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: smsapp-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx
+                port:
+                  number: 80

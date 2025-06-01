@@ -25,6 +25,7 @@ secrets/
 # Docker
 Dockerfile*
 docker-compose*.yml
+deployment.yml
 .dockerignore
 
 # Database

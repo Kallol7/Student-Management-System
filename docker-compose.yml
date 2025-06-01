@@ -1,9 +1,12 @@
 services:
-  myapp:
-    container_name: myapp
-    build: .
+  smsapp:
+    container_name: smsapp
+    image: kallol7/smsapp:latest
     env_file:
       - .env
+    environment:
+      # may need to change the value for local testing
+      - SKEW_IN_SECONDS=0
     command: /bin/sh -c '
         python manage.py migrate &&
         python manage.py collectstatic --noinput &&
@@ -18,6 +21,6 @@ services:
       ports:
         - "8080:80"
       depends_on:
-        - myapp
+        - smsapp
 volumes:
   staticfiles:
