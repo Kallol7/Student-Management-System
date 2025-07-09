@@ -8,6 +8,7 @@ stringData:
   GOOGLE_CLIENT_ID: <placeholder>
   GOOGLE_CLIENT_SECRET: <placeholder>
   GOOGLE_REDIRECT_URI: https://sms.kallol.live/callback
+  SECRET_KEY: <placeholder>
   SKEW_IN_SECONDS: "0"
 
 ---
@@ -28,10 +29,15 @@ kind: Deployment
 metadata:
   name: smsapp
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: smsapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   template:
     metadata:
       labels:
