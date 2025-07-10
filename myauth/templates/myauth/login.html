@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<script src="https://accounts.google.com/gsi/client?hl=fr" async></script>
+{% load static %}
 <form method="post" class="mt-12 max-w-fit p-7 mx-auto bg-[var(--secondary)] rounded-xl text-white">
     {% if success %}
     <p class="text-[var(--success)] text-xl mb-3">Registration successful! Please log in.
@@ -26,7 +26,6 @@
 <div class="text-center mt-6">
     <a href="{% url 'login_with_google' %}"
         class="text-center inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:bg-[var(--secondary)]">
-        {% load static %}
         <img class="w-5 h-5" src="{% static 'myauth/icons/google.svg' %}" alt="Google logo">
         Sign in with Google
     </a>

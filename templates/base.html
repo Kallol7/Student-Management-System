@@ -59,42 +59,53 @@
     </script>
 </head>
 <body class="bg-[var(--background)] text-[var(--primary)] flex flex-col min-h-screen min-w-[220px]">
-    <nav class="bg-[var(--primary)] text-white p-4 flex flex-col md:flex-row justify-between items-center">
-        <a href="{% url 'home' %}" class="text-xl font-semibold">SMSyst&trade;</i></a>
-        
-        <a href="{% url 'courses' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:ml-auto md:mr-4 max-md:mt-1">Courses</a>
-
-        {% if user.is_authenticated %}
-        <a href="{% url 'students' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Students</a>
-
-        <a href="{% url 'student_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Add Student</a>
-
-        <a href="{% url 'course_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Add Course</a>
-
-        <a href="{% url 'user_logout' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Log Out</a>
-        
-        {% else %}
-        <a href="{% url 'signup_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Sign Up</a>
-
-        <a href="{% url 'login_form' %}" class="px-3 py-1 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Log In</a>
-
-        {% endif %}
-        
-        <div class="relative">
-            <button id="theme-button" onclick="toggleVisibility('theme-menu')"
-                class="px-3 py-1 bg-gray-200 text-black rounded max-sm:mt-1">Theme
+    <nav class="bg-[var(--primary)] text-white px-4 py-2.5 flex flex-col md:flex-row justify-between items-center">
+        <!-- Logo/Brand -->
+        <div class="flex justify-between items-center w-full md:w-auto">
+            <a href="{% url 'home' %}" class="text-xl font-semibold">SMSyst&trade;</i></a>
+    
+            <!-- Mobile menu button -->
+            <button onclick="toggleVisibility('mobile-menu')" class="md:hidden px-3 py-1 bg-gray-200 text-black rounded">
+                Menu
             </button>
-            
-            <div id="theme-menu" class="hidden absolute mt-2 shadow-md rounded" onmouseleave="toggleVisibility('theme-menu')">
-                <button onclick="setTheme('default'); toggleVisibility('theme-menu');"
-                    class="block px-3 py-1 bg-gray-200 text-black rounded mx-auto">Default
+        </div>
+    
+        <!-- Collapsible mobile menu -->
+        <div id="mobile-menu" class="hidden flex flex-col md:block md:flex-row md:items-center w-full md:w-auto mt-2 md:mt-0 space-y-2 md:space-y-0 md:space-x-4">
+            <a href="{% url 'courses' %}" class="px-3 py-1.5 bg-gray-200 text-black rounded md:ml-auto md:mr-4 max-md:mt-1">Courses</a>
+    
+            {% if user.is_authenticated %}
+            <a href="{% url 'students' %}" class="px-3 py-1.5 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Students</a>
+    
+            <a href="{% url 'student_form' %}" class="px-3 py-1.5 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Add Student</a>
+    
+            <a href="{% url 'course_form' %}" class="px-3 py-1.5 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Add Course</a>
+    
+            <a href="{% url 'user_logout' %}" class="px-3 py-1.5 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Log Out</a>
+    
+            {% else %}
+            <a href="{% url 'signup_form' %}" class="px-3 py-1.5 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Sign Up</a>
+    
+            <a href="{% url 'login_form' %}" class="px-3 py-1.5 bg-gray-200 text-black rounded md:mr-4 max-md:mt-1">Log In</a>
+    
+            {% endif %}
+    
+            <div class="relative inline-block">
+                <button id="theme-button" onclick="toggleVisibility('theme-menu')"
+                    class="px-3 py-1.5 bg-gray-200 text-black rounded max-sm:mt-1">Theme
                 </button>
-                <button onclick="setTheme('dark'); toggleVisibility('theme-menu');"
-                    class="block text-center px-3 py-1 bg-gray-800 text-white rounded mx-auto">Dark
-                </button>
-                <button onclick="setTheme('green'); toggleVisibility('theme-menu');"
-                    class="block text-center px-3 py-1 bg-green-600 text-white rounded mx-auto">Green
-                </button>
+    
+                <div id="theme-menu" class="hidden absolute mt-2 shadow-md rounded" onmouseleave="toggleVisibility('theme-menu')">
+                    <button onclick="setTheme('default'); toggleVisibility('theme-menu');"
+                        class="block px-3 py-1 bg-gray-200 text-black rounded mx-auto">Default
+                    </button>
+                    <button onclick="setTheme('dark'); toggleVisibility('theme-menu');"
+                        class="block text-center px-3 py-1 bg-gray-800 text-white rounded mx-auto">Dark
+                    </button>
+                    <button onclick="setTheme('green'); toggleVisibility('theme-menu');"
+                        class="block text-center px-3 py-1 bg-green-600 text-white rounded mx-auto">Green
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -108,7 +119,7 @@
     {% endblock %}
     </main>
     
-    <footer class="text-center py-4 bg-[var(--primary)] text-white mt-auto">
+    <footer class="text-center py-3 bg-[var(--primary)] text-white mt-auto">
         <p>&copy; {% now "Y" %} Kallol7</p>
     </footer>
     
