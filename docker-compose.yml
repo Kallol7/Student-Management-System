@@ -1,7 +1,8 @@
 services:
   smsapp:
     container_name: smsapp
-    image: kallol7/smsapp:latest
+    # image: kallol7/smsapp:latest
+    build: .
     env_file:
       - .env
     environment:

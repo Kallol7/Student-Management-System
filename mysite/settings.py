@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "kallol.live", "sms.kallol.live", "www.kallol.live"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "host.docker.internal", "kallol.live", "sms.kallol.live", "www.kallol.live"]
 
 CSRF_TRUSTED_ORIGINS = ["https://*.kallol.live"]
 
@@ -71,6 +71,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Prometheus exporter
+MIDDLEWARE = ['django_prometheus.middleware.PrometheusBeforeMiddleware'] + MIDDLEWARE + \
+    ['django_prometheus.middleware.PrometheusAfterMiddleware']
+INSTALLED_APPS += ['django_prometheus']
 
 ROOT_URLCONF = 'mysite.urls'
 
